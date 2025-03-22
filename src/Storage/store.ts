@@ -4,7 +4,7 @@ import vehicleApi from "../Api/vehicleApi";
 
 const store =configureStore({
   reducer: {
-    vehiceleStore:vehicleReducer,
+    vehicleStore:vehicleReducer,
     [vehicleApi.reducerPath]:vehicleApi.reducer
 
   },middleware:(getDefaultMiddleware)=> getDefaultMiddleware().concat(vehicleApi.middleware)
