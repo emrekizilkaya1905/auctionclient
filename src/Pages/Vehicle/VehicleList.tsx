@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useGetVehiclesQuery } from '../../Api/vehicleApi'
+import { vehicleModel } from '../../interfaces/vehicleModel';
 
 function VehicleList() {
-  const {data,isLoading} = useGetVehiclesQuery(null);
-  const [write,setWriteState]= useState("data is loading");
-  const handleCLickForVehicels=()=> {
-    console.log(data)
-    setWriteState("Data is loading on console.")
-  }
+  const {data,isLoading} = useGetVehiclesQuery(null)
+  const [vehicles,setVehiclesState]= useState<vehicleModel[]>([])
+  useEffect(() => {
+    if (data) {
+      console.log(data)
+      setVehiclesState(data.result || []);
+    }
+    
+  }, [data]);
   return (
     <div>
-      <button className='btn btn-warning' onClick={handleCLickForVehicels}> GetVehicles</button>
-      <h1>{write}</h1>
+     
     </div>
   )
 }
