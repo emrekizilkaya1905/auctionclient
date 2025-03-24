@@ -4,20 +4,11 @@ import { vehicleModel } from '../../interfaces/vehicleModel';
 import './Styles/VehicleList.css';
 import Circle from './Circle';
 
-function VehicleList() {
-  const {data,isLoading} = useGetVehiclesQuery(null)
-  const [vehicles,setVehiclesState]= useState<vehicleModel[]>([])
-  useEffect(() => {
-    if (data) {
-      console.log(data)
-      setVehiclesState(data.result || []);
-    }
-    
-  }, [data]);
+function VehicleList(props:{vehicles:vehicleModel[]}) {
+  
   return (
-    <div className="container">
-      <div className='row'>
-      {vehicles.map((vehicle, index) => {
+  <>
+      {props.vehicles.map((vehicle:any, index:any) => {
         return (
           <div className='col'key={index}>
         <div className="auction-card text-center">
@@ -42,9 +33,7 @@ function VehicleList() {
         )
       })
     }
-    </div>
-    
-    </div>
+    </>
   );
 }
 

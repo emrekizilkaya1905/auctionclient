@@ -27,9 +27,9 @@ useEffect(() => {
           return prevCountdown - 1000; 
       });
   }, 1000); 
-
   return () => clearInterval(interval); 
 }, []); 
+
   return (
     <div className='circle' style={{display:"flex", 
     justifyContent:"center", alignItems:"center"}}>
