@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSignUpMutation } from "../../Api/accountApi";
 import "./Styles/Register.css";
+import { SD_ROLES } from "../../interfaces/enums/SD_ROLES";
+import { apiResponse } from "../../interfaces/apiResponse";
+
 function Register() {
+  const [userData, setUserDataState] = useState({
+    username: "",
+    fullname: "",
+    password: "",
+    userType: "",
+  });
+  const [userRegisterMutation] = useSignUpMutation();
+  async function handleRegistrationSubmit() {
+    const response: apiResponse = await userRegisterMutation({
+      username: userData.username,
+      fullname: userData.fullname,
+      password: userData.password,
+      userType: userData.userType,
+    });
+  }
   return (
     <section
       className="vh-100 bg-image"
@@ -25,10 +43,16 @@ function Register() {
                       <input
                         type="text"
                         id="form3Example1cg"
-                        className="form-control form-control-lg"
+                        className="form-control form-control-lg mb-1"
+                        onChange={(e) =>
+                          setUserDataState((prev) => ({
+                            ...prev,
+                            fullname: e.target.value,
+                          }))
+                        }
                       />
                       <label className="form-label" htmlFor="form3Example1cg">
-                        Your Name
+                        Fullname
                       </label>
                     </div>
 
@@ -36,10 +60,16 @@ function Register() {
                       <input
                         type="email"
                         id="form3Example3cg"
-                        className="form-control form-control-lg"
+                        className="form-control form-control-lg mb-1"
+                        onChange={(e) =>
+                          setUserDataState((prev) => ({
+                            ...prev,
+                            username: e.target.value,
+                          }))
+                        }
                       />
                       <label className="form-label" htmlFor="form3Example3cg">
-                        Your Email
+                        Email
                       </label>
                     </div>
 
@@ -47,7 +77,13 @@ function Register() {
                       <input
                         type="password"
                         id="form3Example4cg"
-                        className="form-control form-control-lg"
+                        className="form-control form-control-lg mb-1"
+                        onChange={(e) =>
+                          setUserDataState((prev) => ({
+                            ...prev,
+                            password: e.target.value,
+                          }))
+                        }
                       />
                       <label className="form-label" htmlFor="form3Example4cg">
                         Password
@@ -55,14 +91,22 @@ function Register() {
                     </div>
 
                     <div className="form-outline mb-4">
-                      <input
-                        type="password"
-                        id="form3Example4cdg"
-                        className="form-control form-control-lg"
-                      />
-                      <label className="form-label" htmlFor="form3Example4cdg">
-                        Repeat your password
-                      </label>
+                      <select
+                        className="form-select"
+                        defaultValue=""
+                        onChange={(e) =>
+                          setUserDataState((prev) => ({
+                            ...prev,
+                            userType: e.target.value,
+                          }))
+                        }
+                      >
+                        <option value="" disabled>
+                          Choose User Role
+                        </option>
+                        <option value={SD_ROLES.Seller}>Seller</option>
+                        <option value={SD_ROLES.NormalUser}>Normal</option>
+                      </select>
                     </div>
 
                     <div className="form-check d-flex justify-content-center mb-5">
