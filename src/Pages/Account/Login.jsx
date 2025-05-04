@@ -4,7 +4,12 @@ import "./Styles/Register.css";
 
 import { apiResponse } from "../../interfaces/apiResponse";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { jwtDecode } from "jwt-decode";
+import userModel from "../../interfaces/userModel";
+import { setLoggedInUser } from "../../Storage/Redux/authenticationSlice";
 function Login() {
+  const dispatch = useDispatch();
   const [userData, setUserDataState] = useState({
     username: "",
     password: "",
@@ -17,7 +22,16 @@ function Login() {
       password: userData.password,
     });
     if (response.data.isSuccess) {
-      console.log(response);
+      const token = response.data.result.token;
+      const { fullname, id, email, role }: userModel = jwtDecode(token);
+      dispatch(
+        setLoggedInUser({
+          fullname,
+          id,
+          email,
+          role,
+        })
+      );
     }
   }
   return (
