@@ -3,6 +3,7 @@ import { useSignUpMutation } from "../../Api/accountApi";
 import "./Styles/Register.css";
 import { SD_ROLES } from "../../interfaces/enums/SD_ROLES";
 import { apiResponse } from "../../interfaces/apiResponse";
+import { Link } from "react-router-dom";
 
 function Register() {
   const [userData, setUserDataState] = useState({
@@ -141,9 +142,9 @@ function Register() {
 
                     <p className="text-center text-muted mt-5 mb-0">
                       Have already an account?{" "}
-                      <a href="#!" className="fw-bold text-body">
+                      <Link to="/login" className="fw-bold text-body">
                         <u>Login here</u>
-                      </a>
+                      </Link>
                     </p>
                   </form>
                 </div>
