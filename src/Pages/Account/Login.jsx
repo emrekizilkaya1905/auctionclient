@@ -3,12 +3,13 @@ import { useSignInMutation } from "../../Api/accountApi";
 import "./Styles/Register.css";
 
 import { apiResponse } from "../../interfaces/apiResponse";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import userModel from "../../interfaces/userModel";
 import { setLoggedInUser } from "../../Storage/Redux/authenticationSlice";
 function Login() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [userData, setUserDataState] = useState({
     username: "",
@@ -23,16 +24,17 @@ function Login() {
     });
     if (response.data.isSuccess) {
       const token = response.data.result.token;
-      const { fullname, id, email, role }: userModel = jwtDecode(token);
+      const { nameid, email, role, fullName }: userModel = jwtDecode(token);
       dispatch(
         setLoggedInUser({
-          fullname,
-          id,
+          nameid,
           email,
           role,
+          fullName,
         })
       );
     }
+    navigate("/");
   }
   return (
     <div>

@@ -1,6 +1,6 @@
 export default interface userModel {
-  fullname?: string;
-  id?: string;
+  fullName?: string;
+  nameid?: string;
   email?: string;
   role?: string;
 }

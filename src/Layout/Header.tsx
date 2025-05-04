@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Styles/Header.css";
+import { useDispatch, useSelector } from "react-redux";
+import userModel from "../interfaces/userModel";
+import { RootState } from "../Storage/store";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  initialState,
+  setLoggedInUser,
+} from "../Storage/Redux/authenticationSlice";
 
 function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userStore: userModel = useSelector(
+    (state: RootState) => state.authenticationStore
+  );
+  const token = localStorage.getItem("token");
+  useEffect(function () {}, [userStore]);
+  function handleLogout() {
+    localStorage.removeItem("token");
+    dispatch(setLoggedInUser({ ...initialState }));
+    navigate("/");
+  }
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-gray">
@@ -29,11 +49,13 @@ function Header() {
                 </a>
               </li>
 
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Fullname
-                </a>
-              </li>
+              {userStore.fullName && (
+                <li className="nav-item">
+                  <span className="nav-link">
+                    Welcome, {userStore.fullName}
+                  </span>
+                </li>
+              )}
               <div
                 className="collapse navbar-collapse  mx-2 "
                 id="navbarNavDarkDropdown"
@@ -56,21 +78,30 @@ function Header() {
                 </ul>
               </div>
 
-              <li className="nav-item" style={{ marginRight: "5px" }}>
-                <a type="button" className="btn btn-success ">
-                  Logout
-                </a>
-              </li>
-
-              <>
+              {userStore.fullName ? (
                 <li className="nav-item" style={{ marginRight: "5px" }}>
-                  <a className="btn btn-success ">Register</a>
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => handleLogout()}
+                  >
+                    Logout
+                  </button>
                 </li>
-
-                <li className="nav-item" style={{ marginRight: "5px" }}>
-                  <a className="btn btn-success ">Login</a>
-                </li>
-              </>
+              ) : (
+                <>
+                  <li className="nav-item" style={{ marginRight: "5px" }}>
+                    <Link className="btn btn-success" to="/register">
+                      Register
+                    </Link>
+                  </li>
+                  <li className="nav-item" style={{ marginRight: "5px" }}>
+                    <Link className="btn btn-success" to="/login">
+                      Login
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>
