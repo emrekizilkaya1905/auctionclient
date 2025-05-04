@@ -12,14 +12,17 @@ function Register() {
     userType: "",
   });
   const [userRegisterMutation] = useSignUpMutation();
-  async function handleRegistrationSubmit() {
+  async function handleRegistrationSubmit(e) {
+    e.preventDefault();
     const response: apiResponse = await userRegisterMutation({
       username: userData.username,
       fullname: userData.fullname,
       password: userData.password,
       userType: userData.userType,
     });
+    console.log(response);
   }
+
   return (
     <section
       className="vh-100 bg-image"
@@ -38,7 +41,7 @@ function Register() {
                     Create an account
                   </h2>
 
-                  <form>
+                  <form onSubmit={handleRegistrationSubmit}>
                     <div className="form-outline mb-4">
                       <input
                         type="text"
@@ -129,7 +132,7 @@ function Register() {
 
                     <div className="d-flex justify-content-center">
                       <button
-                        type="button"
+                        type="submit"
                         className="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
                       >
                         Register
