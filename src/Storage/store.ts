@@ -5,6 +5,7 @@ import { accountApi } from "../Api/accountApi";
 import { authenticationReducer } from "./Redux/authenticationSlice";
 import { bidApi } from "../Api/bidApi";
 import { paymentHistoryApi } from "../Api/paymentHistoryApi";
+import { paymentApi } from "../Api/paymentApi";
 
 const store = configureStore({
   reducer: {
@@ -14,13 +15,15 @@ const store = configureStore({
     [accountApi.reducerPath]: accountApi.reducer,
     [bidApi.reducerPath]: bidApi.reducer,
     [paymentHistoryApi.reducerPath]: paymentHistoryApi.reducer,
+    [paymentApi.reducerPath]: paymentApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       vehicleApi.middleware,
       accountApi.middleware,
       bidApi.middleware,
-      paymentHistoryApi.middleware
+      paymentHistoryApi.middleware,
+      paymentApi.middleware
     ),
 });
 
