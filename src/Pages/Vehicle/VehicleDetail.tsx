@@ -3,19 +3,24 @@ import { useParams } from "react-router-dom";
 import { useGetVehicleByIdQuery } from "../../Api/vehicleApi";
 import { Loader } from "../../Helper";
 import "./Styles/VehicleDetail.css";
+import BidsDetail from "../Bid/BidsDetail";
 
 export default function VehicleDetail() {
   const { vehicleId } = useParams();
   const { data, isLoading } = useGetVehicleByIdQuery(vehicleId);
+  const safeVehicleId = vehicleId || "";
   if (!data) return <Loader />;
 
   return (
-    <div className="auction-item text-center">
-      <img className="container" src={data.result.image} />
-      <h2>Brand Model:{data.result.brandAndModel}</h2>
-      <p>Description :{data.result.additionalInformation}</p>
-      <p>Current Bid</p>
-      <p>Last Bidder</p>
-    </div>
+    <>
+      <div className="auction-item text-center">
+        <img className="container" src={data.result.image} />
+        <h2>Brand Model:{data.result.brandAndModel}</h2>
+        <p>Description :{data.result.additionalInformation}</p>
+        <p>Current Bid</p>
+        <p>Last Bidder</p>
+      </div>
+      <BidsDetail vehicleId={safeVehicleId}></BidsDetail>
+    </>
   );
 }
