@@ -2,16 +2,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const paymentHistoryApi = createApi({
-  reducerPath: "paymentHistoryApi", // "paymentHistoyApi" yazımı hatalıydı, "History" olarak düzeltildi.
+  reducerPath: "paymentHistoryApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://localhost:7186/api/PaymentHistory/", // Base URL doğru şekilde bırakıldı
+    baseUrl: "https://localhost:7186/api/PaymentHistory/",
   }),
   endpoints: (builder) => ({
     checkStatusAuctionPrice: builder.mutation({
       query: (statusDetail) => ({
-        url: "CheckStatus", // URL doğru şekilde belirtildi
-        method: "POST", // POST metodu belirtildi
-        body: statusDetail, // body parametresi doğru şekilde yazıldı
+        url: "CheckStatus",
+        method: "POST",
+        body: statusDetail,
       }),
     }),
   }),

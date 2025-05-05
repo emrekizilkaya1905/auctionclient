@@ -19,7 +19,8 @@ const store = configureStore({
     getDefaultMiddleware().concat(
       vehicleApi.middleware,
       accountApi.middleware,
-      bidApi.middleware
+      bidApi.middleware,
+      paymentHistoryApi.middleware
     ),
 });
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import "./App.css";
 
@@ -8,8 +8,28 @@ import VehicleDetail from "../Pages/Vehicle/VehicleDetail";
 import { VehicleList } from "../Pages/Vehicle";
 import Register from "../Pages/Account/Register";
 import Login from "../Pages/Account/Login";
+import { useDispatch } from "react-redux";
+import { setLoggedInUser } from "../Storage/Redux/authenticationSlice";
+import userModel from "../interfaces/userModel";
+import { jwtDecode } from "jwt-decode";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Token in App useEffect:", token); // 👈 bunu ekle
+    if (token) {
+      const { nameid, email, role, fullName }: userModel = jwtDecode(token);
+      dispatch(
+        setLoggedInUser({
+          nameid,
+          email,
+          role,
+          fullName,
+        })
+      );
+    }
+  }, []);
   return (
     <div className="App">
       <Header></Header>
