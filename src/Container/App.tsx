@@ -12,12 +12,13 @@ import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "../Storage/Redux/authenticationSlice";
 import userModel from "../interfaces/userModel";
 import { jwtDecode } from "jwt-decode";
+import BidCheckout from "../Pages/Bid/BidCheckout";
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("Token in App useEffect:", token); // 👈 bunu ekle
+    console.log("Token in App useEffect:", token);
     if (token) {
       const { nameid, email, role, fullName }: userModel = jwtDecode(token);
       dispatch(
@@ -46,6 +47,10 @@ function App() {
           <Route
             path="Vehicle/VehicleId/:vehicleId"
             element={<VehicleDetail />}
+          />
+          <Route
+            path="Vehicle/BidCheckout/:vehicleId"
+            element={<BidCheckout />}
           />
         </Routes>
       </div>

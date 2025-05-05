@@ -9,8 +9,10 @@ import { RootState } from "../../Storage/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetVehicleByIdQuery } from "../../Api/vehicleApi";
 import CreateBid from "./CreateBid";
+import { useNavigate } from "react-router-dom";
 
 function BidsDetail(props: { vehicleId: string }) {
+  const navigate = useNavigate();
   const { data, isLoading } = useGetBidByVehicleIdQuery(
     parseInt(props.vehicleId)
   );
@@ -23,7 +25,6 @@ function BidsDetail(props: { vehicleId: string }) {
   const [result, setResult] = useState();
   const response_data = useGetVehicleByIdQuery(parseInt(props.vehicleId));
   if (response_data) {
-    console.log(response_data.currentData?.result.auctionPrice);
   }
   useEffect(
     function () {
@@ -41,7 +42,13 @@ function BidsDetail(props: { vehicleId: string }) {
     },
     [checkStatusAuction, props.vehicleId, userStore.nameid]
   );
-
+  function handleCheckout(props: any) {
+    var token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+    navigate(`/Vehicle/BidCheckout/${props}`);
+  }
   if (!data) {
     return <Loader />;
   }
@@ -54,7 +61,11 @@ function BidsDetail(props: { vehicleId: string }) {
         </div>
       ) : (
         <div className="container mb-4">
-          <button className="btn btn-warning" type="button">
+          <button
+            className="btn btn-warning"
+            type="button"
+            onClick={() => handleCheckout(props.vehicleId)}
+          >
             Pay Pre Auction Price $
             {response_data.currentData?.result.auctionPrice}
           </button>
