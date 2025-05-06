@@ -1,32 +1,33 @@
 import React, { useState } from "react";
 import { useSignInMutation } from "../../Api/accountApi";
-import "./Styles/Register.css";
-
 import { apiResponse } from "../../interfaces/apiResponse";
-import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { jwtDecode } from "jwt-decode";
 import userModel from "../../interfaces/userModel";
+import { jwtDecode } from "jwt-decode";
 import { setLoggedInUser } from "../../Storage/Redux/authenticationSlice";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 function Login() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [userData, setUserDataState] = useState({
-    username: "",
+    userName: "",
     password: "",
   });
+  const navigate = useNavigate();
   const [userSignInMutation] = useSignInMutation();
-  async function handleSignInSubmit(e) {
-    e.preventDefault();
+  const Dispatch = useDispatch();
+
+  const handleLoginSubmit = async () => {
     const response: apiResponse = await userSignInMutation({
-      username: userData.username,
+      userName: userData.userName,
       password: userData.password,
     });
-    if (response.data.isSuccess) {
+
+    if (response.data?.isSuccess) {
       const token = response.data.result.token;
       localStorage.setItem("token", token);
       const { nameid, email, role, fullName }: userModel = jwtDecode(token);
-      dispatch(
+      Dispatch(
         setLoggedInUser({
           nameid,
           email,
@@ -34,104 +35,84 @@ function Login() {
           fullName,
         })
       );
+
+      navigate("/");
     }
-    navigate("/");
-  }
+  };
+
   return (
-    <div>
-      <section
-        className="vh-100 bg-image"
-        style={{
-          backgroundImage:
-            "url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp')",
-        }}
-      >
-        <div className="mask d-flex align-items-center h-100 gradient-custom-3">
-          <div className="container h-100">
-            <div className="row d-flex justify-content-center align-items-center h-100">
-              <div className="col-12 col-md-9 col-lg-7 col-xl-6">
-                <div className="card" style={{ borderRadius: "15px" }}>
-                  <div className="card-body p-5">
-                    <h2 className="text-uppercase text-center mb-5">Login</h2>
+    <section>
+      <div className="container">
+        <div className="alert alert-warning text-center my-4">Car Auction</div>
 
-                    <form onSubmit={handleSignInSubmit}>
-                      <div className="form-outline mb-4">
-                        <input
-                          type="email"
-                          id="form3Example3cg"
-                          className="form-control form-control-lg mb-1"
-                          onChange={(e) =>
-                            setUserDataState((prev) => ({
-                              ...prev,
-                              username: e.target.value,
-                            }))
-                          }
-                        />
-                        <label className="form-label" htmlFor="form3Example3cg">
-                          Email
-                        </label>
-                      </div>
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-8 col-lg-8 col-xl-6">
+            <div className="row">
+              <div className="col text-center">
+                <h1>Login</h1>
+                <p className="text-h3">
+                  Far far away, behind the word mountains, far from the
+                  countries Vokalia and Consonantia.{" "}
+                </p>
+              </div>
+            </div>
+            <div className="row align-items-center">
+              <div className="col mt-4">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="UserName"
+                  onChange={(e) =>
+                    setUserDataState((prevState) => {
+                      return { ...prevState, userName: e.target.value };
+                    })
+                  }
+                />
+              </div>
+            </div>
 
-                      <div className="form-outline mb-4">
-                        <input
-                          type="password"
-                          id="form3Example4cg"
-                          className="form-control form-control-lg mb-1"
-                          onChange={(e) =>
-                            setUserDataState((prev) => ({
-                              ...prev,
-                              password: e.target.value,
-                            }))
-                          }
-                        />
-                        <label className="form-label" htmlFor="form3Example4cg">
-                          Password
-                        </label>
-                      </div>
-
-                      <div className="form-check d-flex justify-content-center mb-5">
-                        <input
-                          className="form-check-input me-2"
-                          type="checkbox"
-                          value=""
-                          id="form2Example3cg"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="form2Example3cg"
-                        >
-                          I agree all statements in{" "}
-                          <a href="#!" className="text-body">
-                            <u>Terms of service</u>
-                          </a>
-                        </label>
-                      </div>
-
-                      <div className="d-flex justify-content-center">
-                        <button
-                          type="submit"
-                          className="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
-                        >
-                          Login
-                        </button>
-                      </div>
-
-                      <p className="text-center text-muted mt-5 mb-0 ">
-                        Do not have an account? You can&nbsp;
-                        <Link to="/register" className="fw-bold text-body">
-                          <u>Register here</u>
-                        </Link>
-                      </p>
-                    </form>
-                  </div>
+            <div className="row align-items-center mt-4">
+              <div className="col">
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Password"
+                  onChange={(e) =>
+                    setUserDataState((prevState) => {
+                      return { ...prevState, password: e.target.value };
+                    })
+                  }
+                />
+              </div>
+            </div>
+            <div className="row justify-content-start mt-4">
+              <div className="col">
+                <div className="form-check">
+                  <label className="form-check-label">
+                    <input type="checkbox" className="form-check-input" />I Read
+                    and Accept{" "}
+                    <a href="https://www.froala.com">Terms and Conditions</a>
+                  </label>
                 </div>
+
+                <button
+                  onClick={() => handleLoginSubmit()}
+                  className="btn btn-primary mt-4"
+                >
+                  Submit
+                </button>
+                <p className="text-center text-muted mt-5 mb-0">
+                  Dont you have an account?{" "}
+                  <Link to="/register" className="fw-bold text-body">
+                    <u>Register here</u>
+                  </Link>
+                </p>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
-
 export default Login;
