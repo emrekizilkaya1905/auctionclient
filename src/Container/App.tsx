@@ -13,6 +13,7 @@ import { setLoggedInUser } from "../Storage/Redux/authenticationSlice";
 import userModel from "../interfaces/userModel";
 import { jwtDecode } from "jwt-decode";
 import BidCheckout from "../Pages/Bid/BidCheckout";
+import Payment from "../Pages/Payment/Payment";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ function App() {
             path="Vehicle/BidCheckout/:vehicleId"
             element={<BidCheckout />}
           />
+          <Route path="payment" element={<Payment />} />
         </Routes>
       </div>
     </div>
