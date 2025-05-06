@@ -1,16 +1,21 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetVehicleByIdQuery } from "../../Api/vehicleApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Storage/store";
 import userModel from "../../interfaces/userModel";
 import { useDoPaymentMutation } from "../../Api/paymentApi";
 import { Loader } from "../../Helper";
 import "./Styles/bidCheckout.css";
+import { apiResponse } from "../../interfaces/apiResponse";
+import { getOrderInfo } from "../../Storage/Redux/orderSlice";
+import { getVehicle } from "../../Storage/Redux/vehicleSlice";
 
 function BidCheckout() {
   const { vehicleId } = useParams();
   const { data, isLoading } = useGetVehicleByIdQuery(vehicleId);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userStore: userModel = useSelector(
     (state: RootState) => state.authenticationStore
   );
@@ -23,12 +28,28 @@ function BidCheckout() {
   const [phone, setPhoneState] = useState(initialState.phoneNumber);
   const [name, setNameState] = useState(initialState.name);
   const [email, setEmailState] = useState(initialState.email);
-  const [loading, setLoadingState] = useState<boolean>();
-  function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
+  const [loading, setLoading] = useState<boolean>();
+  async function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoadingState(true);
-    ///Is Kodlari
-    setLoadingState(false);
+    setLoading(true);
+
+    const { data }: apiResponse = await initialPayment({
+      userId: userStore.nameid,
+      vehicleId: vehicleId,
+    });
+    if (data)
+      dispatch(
+        getOrderInfo({
+          vehicleId: data?.result.vehicleId,
+          userId: data?.result.userId,
+          stripePaymentId: data?.result.stripePaymentId,
+          clientSecret: data?.result.clientSecret,
+        })
+      );
+
+    dispatch(getVehicle(vehicleId));
+    navigate("/payment");
+    setLoading(false);
   }
   if (data) {
     return (
