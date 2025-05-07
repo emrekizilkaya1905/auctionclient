@@ -23,7 +23,6 @@ function BidsDetail(props: { vehicleId: string }) {
     (state: RootState) => state.authenticationStore
   );
 
-  var model: any = {};
   const [result, setResult] = useState();
   const response_data = useGetVehicleByIdQuery(parseInt(props.vehicleId));
   if (response_data) {
