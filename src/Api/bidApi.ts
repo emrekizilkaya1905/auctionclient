@@ -6,6 +6,7 @@ export const bidApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://localhost:7186/api/Bid/",
   }),
+  tagTypes: ["Bids"],
   endpoints: (builder) => ({
     getBidByVehicleId: builder.query({
       query: (vehicleId) => ({
@@ -20,6 +21,7 @@ export const bidApi = createApi({
         url: "Create",
         body: bidModel,
       }),
+      invalidatesTags: ["Bids"],
     }),
   }),
 });

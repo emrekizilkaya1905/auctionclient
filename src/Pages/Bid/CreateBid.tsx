@@ -19,7 +19,10 @@ function CreateBid(props: { vehicleId: number }) {
     vehicleId: props.vehicleId,
   };
   function handleCreateBid() {
-    createBid(bidModel);
+    console.log(bidModel);
+    createBid(bidModel).then((response) => {
+      console.log(response);
+    });
   }
   return (
     <div className="container">

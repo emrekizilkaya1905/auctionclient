@@ -9,6 +9,16 @@ export default function VehicleDetail() {
   const { vehicleId } = useParams();
   const { data, isLoading } = useGetVehicleByIdQuery(vehicleId);
   const safeVehicleId = vehicleId || "";
+  var highBid = 0;
+  if (data) {
+    if (data.result.bids.length > 0) {
+      const valueResponse = data.result.bids
+        .slice()
+        .sort((a: any, b: any) => a - b);
+      const higherBid = valueResponse[valueResponse.length - 1].bidAmount;
+      highBid = higherBid;
+    }
+  }
   if (!data) return <Loader />;
 
   return (
@@ -17,7 +27,7 @@ export default function VehicleDetail() {
         <img className="container" src={data.result.image} />
         <h2>Brand Model:{data.result.brandAndModel}</h2>
         <p>Description :{data.result.additionalInformation}</p>
-        <p>Current Bid</p>
+        <p> Current Bid: {highBid} </p>
         <p>Last Bidder</p>
       </div>
       <BidsDetail vehicleId={safeVehicleId}></BidsDetail>

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetVehicleByIdQuery } from "../../Api/vehicleApi";
 import CreateBid from "./CreateBid";
 import { useNavigate } from "react-router-dom";
+import { bidModel } from "../../interfaces/bidModel";
 
 function BidsDetail(props: { vehicleId: string }) {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ function BidsDetail(props: { vehicleId: string }) {
     parseInt(props.vehicleId)
   );
   const [checkStatusAuction] = useCheckStatusAuctionPriceMutation();
+
   const userStore: userModel = useSelector(
     (state: RootState) => state.authenticationStore
   );
@@ -40,7 +42,7 @@ function BidsDetail(props: { vehicleId: string }) {
           console.error("Error");
         });
     },
-    [checkStatusAuction, props.vehicleId, userStore.nameid]
+    [props.vehicleId, checkStatusAuction, userStore.nameid]
   );
   function handleCheckout(props: any) {
     var token = localStorage.getItem("token");
@@ -73,18 +75,26 @@ function BidsDetail(props: { vehicleId: string }) {
       )}
 
       <div className="bid-list">
-        {data.result.map((bid: any) => {
-          return (
-            <div key={bid.bidId} className="mt-4">
-              <div className="bid">
-                <span className="bid-number">{bid.bidId}</span>{" "}
-                <span className="bid-date">{bid.bidDate}</span>{" "}
-                <span className="bid-amount">${bid.bidAmount}</span>{" "}
+        {data.result
+          .slice()
+          .sort((a: bidModel, b: bidModel) => b.bidAmount - a.bidAmount)
+          .map((bid: any) => {
+            return (
+              <div key={bid.bidId} className="mt-4">
+                <div className="bid">
+                  <span className="bid-number">{bid.bidId}</span>{" "}
+                  <span className="bid-date">
+                    {new Date(bid.bidDate).toLocaleString("sv-SE", {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })}
+                  </span>
+                  <span className="bid-amount">${bid.bidAmount}</span>{" "}
+                </div>
+                <br />
               </div>
-              <br />
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </>
   );
