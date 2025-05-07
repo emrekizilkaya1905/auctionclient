@@ -47,7 +47,9 @@ function BidCheckout() {
         })
       );
 
-    dispatch(getVehicle(vehicleId));
+    if (vehicleId) {
+      dispatch(getVehicle(vehicleId!));
+    }
     navigate("/payment", {
       state: { apiResult: data?.result, userStore },
     });

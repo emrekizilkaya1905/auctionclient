@@ -57,7 +57,7 @@ function BidsDetail(props: { vehicleId: string }) {
     <>
       {result ? (
         <div className="container mb-4">
-          <CreateBid></CreateBid>
+          <CreateBid vehicleId={parseInt(props.vehicleId)}></CreateBid>
         </div>
       ) : (
         <div className="container mb-4">

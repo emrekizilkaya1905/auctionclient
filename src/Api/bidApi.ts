@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { bidModel } from "../interfaces/bidModel";
 
 export const bidApi = createApi({
   reducerPath: "bidApi",
@@ -7,13 +8,20 @@ export const bidApi = createApi({
   }),
   endpoints: (builder) => ({
     getBidByVehicleId: builder.query({
-      // <ResponseType, ParamType>
       query: (vehicleId) => ({
         method: "GET",
         url: `getBidsByVehicle/${vehicleId}`,
         params: vehicleId,
-      }), // Örn: /api/Bid/{id}
+      }),
+    }),
+    createBid: builder.mutation({
+      query: (bidModel: bidModel) => ({
+        method: "POST",
+        url: "Create",
+        body: bidModel,
+      }),
     }),
   }),
 });
-export const { useGetBidByVehicleIdQuery } = bidApi;
+
+export const { useGetBidByVehicleIdQuery, useCreateBidMutation } = bidApi;

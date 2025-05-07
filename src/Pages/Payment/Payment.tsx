@@ -5,17 +5,13 @@ import { Loader } from "../../Helper";
 import { loadStripe } from "@stripe/stripe-js";
 
 import CheckoutForm from "./CheckoutForm";
+import { Modal } from "react-bootstrap";
 
 function Payment() {
   const location = useLocation();
   const { apiResult, userStore } = location.state;
-  const [show, setShow] = useState(false);
-  function handleClose() {
-    setShow(false);
-  }
-  function handleShow() {
-    setShow(true);
-  }
+  const [show, setShow] = useState(true);
+
   const stripePromise = loadStripe(
     "pk_test_51R4XLZP8VXreZ1jkhJZ8c282qwyNKDABGm8S2Zo630i367vHwsomE9EhLbSuodLneDA3yHD85EQ8fRR3gl7Iw3EW00qx67u324"
   );
@@ -28,9 +24,12 @@ function Payment() {
       <div>
         <Elements stripe={stripePromise} options={options}>
           <div className="container m5 p-5">
-            <div className="col md-7"></div>
-            <div className="col md-5 container">
-              <CheckoutForm />
+            <div className="row">
+              <Modal show={show}>
+                <div className=" container">
+                  <CheckoutForm></CheckoutForm>
+                </div>
+              </Modal>
             </div>
           </div>
         </Elements>

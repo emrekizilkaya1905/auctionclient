@@ -14,7 +14,17 @@ export const paymentHistoryApi = createApi({
         body: statusDetail,
       }),
     }),
+    createPaymentHistory: builder.mutation({
+      query: (paymentHistory) => ({
+        url: "AddHistory",
+        method: "POST",
+        body: paymentHistory,
+      }),
+    }),
   }),
 });
 
-export const { useCheckStatusAuctionPriceMutation } = paymentHistoryApi;
+export const {
+  useCheckStatusAuctionPriceMutation,
+  useCreatePaymentHistoryMutation,
+} = paymentHistoryApi;

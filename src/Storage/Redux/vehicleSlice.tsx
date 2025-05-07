@@ -13,7 +13,7 @@ export const vehicleSlice = createSlice({
       state.vehicles = action.payload;
     },
     getVehicle: (state, action) => {
-      state.vehicleId = action.payload.vehicleId;
+      state.vehicleId = action.payload;
     },
   },
 });
