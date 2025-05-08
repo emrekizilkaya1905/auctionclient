@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   vehicles: [],
   vehicleId: "",
+  search: "",
 };
 
 export const vehicleSlice = createSlice({
@@ -15,7 +16,10 @@ export const vehicleSlice = createSlice({
     getVehicle: (state, action) => {
       state.vehicleId = action.payload;
     },
+    setSearchItem: (state, action) => {
+      state.search = action.payload;
+    },
   },
 });
-export const { getVehicles, getVehicle } = vehicleSlice.actions;
+export const { getVehicles, getVehicle, setSearchItem } = vehicleSlice.actions;
 export const vehicleReducer = vehicleSlice.reducer;

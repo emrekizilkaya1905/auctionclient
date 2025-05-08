@@ -6,15 +6,21 @@ import Circle from "./Circle";
 import { Link } from "react-router-dom";
 import Banner from "./Banner";
 import { SD_FilterTypes } from "../../interfaces/enums/SD_FilterTypes";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Storage/store";
 
 function VehicleList() {
-  const { data, isLoading } = useGetVehiclesQuery(null);
-  const forPaginationArr: vehicleModel[] = [];
+  const { data } = useGetVehiclesQuery(null);
+
   const [filterResponse, setFilterResponse] = useState<vehicleModel[]>([]);
   const [result, setResultState] = useState<vehicleModel[]>([]);
   const [vehicles, setVehicleState] = useState<vehicleModel[]>([]);
   const [currentPage, setCurrentPage] = useState<number>();
   const defaultPaginationArr: number[] = [];
+  const [setSearch, setSearchState] = useState("");
+  let searchElement: string = useSelector(
+    (state: RootState) => state.vehicleStore.search
+  );
   const filterOptions: Array<SD_FilterTypes> = [
     SD_FilterTypes.NAME_A_Z,
     SD_FilterTypes.NAME_Z_A,
@@ -78,14 +84,30 @@ function VehicleList() {
     }
   }, [data]);
   useEffect(() => {
+    const myArray: vehicleModel[] = [];
+    setSearchState(searchElement);
+    if (vehicles) {
+      vehicles.forEach((element) => {
+        const response = element.brandAndModel
+          .toLowerCase()
+          .includes(searchElement.toLocaleLowerCase());
+        if (response === true) {
+          myArray.push(element);
+        }
+      });
+      if (setSearch !== "") {
+        setFilterResponse(myArray);
+      }
+    }
+
     const storedArray = JSON.parse(localStorage.getItem("myFilter")!);
-    if (data && storedArray === null) {
+    if (data && storedArray === null && searchElement === "") {
       setFilterResponse(data.result);
     }
-    if (storedArray !== null) {
+    if (storedArray !== null && searchElement === "") {
       setFilterResponse(storedArray);
     }
-  }, [vehicles, data]);
+  }, [vehicles, data, searchElement]);
 
   const cellCalc = data && data.result ? Math.ceil(data.result.length / 8) : 0;
   for (let index = 0; index < cellCalc; index++) {
@@ -128,7 +150,7 @@ function VehicleList() {
             <div className="col" key={index}>
               <div className="auction-card text-center">
                 <div className="card-image text-center">
-                  <img src={vehicle.image} alt="Car image" />
+                  <img src={vehicle.image} alt="Car" />
                 </div>
                 <div className="card-details text-center">
                   <h2>{vehicle.brandAndModel} </h2>
@@ -166,7 +188,6 @@ function VehicleList() {
         <li className={`page-item ${currentPage === 0 ? "disabled" : ""}`}>
           <a
             className="page-link"
-            href="#"
             onClick={() => {
               if (currentPage! > 0) {
                 handleFilterClick("Pagination", currentPage! - 1);

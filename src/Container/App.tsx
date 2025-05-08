@@ -19,7 +19,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("Token in App useEffect:", token);
+
     if (token) {
       const { nameid, email, role, fullName }: userModel = jwtDecode(token);
       dispatch(
