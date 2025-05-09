@@ -7,6 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { setLoggedInUser } from "../../Storage/Redux/authenticationSlice";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { ToastrNotify } from "../../Helper";
 
 function Login() {
   const [userData, setUserDataState] = useState({
@@ -37,6 +38,7 @@ function Login() {
       );
 
       navigate("/");
+      ToastrNotify("You are successfully logged in", "success");
     }
   };
 

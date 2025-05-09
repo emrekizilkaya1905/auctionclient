@@ -1,3 +1,3 @@
 import Loader from "./Loader";
-
-export { Loader };
+import ToastrNotify from "./ToastrNotify";
+export { Loader, ToastrNotify };

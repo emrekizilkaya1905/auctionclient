@@ -3,6 +3,7 @@ import { useSignUpMutation } from "../../Api/accountApi";
 import { SD_ROLES } from "../../interfaces/enums/SD_ROLES";
 import { apiResponse } from "../../interfaces/apiResponse";
 import { useNavigate, Link } from "react-router-dom";
+import { ToastrNotify } from "../../Helper";
 
 function Register() {
   const Navigate = useNavigate();
@@ -15,7 +16,6 @@ function Register() {
 
   const [userRegisterMutation] = useSignUpMutation();
   const handleRegistrationSubmit = async () => {
-    console.log(userData.userType);
     const response: apiResponse = await userRegisterMutation({
       username: userData.username,
       fullname: userData.fullname,
@@ -23,7 +23,16 @@ function Register() {
       userType: userData.userType,
     });
     if (response.data?.isSuccess) {
+      ToastrNotify("You are successfully sign up", "success");
       Navigate("/");
+    }
+    if (!response.data?.isSuccess) {
+      if (
+        response.data !== undefined &&
+        response.data.errorMessages !== undefined
+      ) {
+        ToastrNotify(response.data.errorMessages[0], "error");
+      }
     }
   };
 
