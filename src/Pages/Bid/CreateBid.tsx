@@ -4,6 +4,7 @@ import { bidModel } from "../../interfaces/bidModel";
 import userModel from "../../interfaces/userModel";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Storage/store";
+import { setBidChange } from "../../Storage/Redux/bidSlice";
 
 function CreateBid(props: { vehicleId: number }) {
   const [createBid] = useCreateBidMutation();
@@ -19,11 +20,13 @@ function CreateBid(props: { vehicleId: number }) {
     vehicleId: props.vehicleId,
   };
   function handleCreateBid() {
-    console.log(bidModel);
-    createBid(bidModel).then((response) => {
-      console.log(response);
+    createBid(bidModel).then((response: any) => {
+      if (response.data.isSuccess === true) {
+        dispatch(setBidChange(bidModel.bidAmount));
+      }
     });
   }
+
   return (
     <div className="container">
       <form>

@@ -11,6 +11,12 @@ import { useGetVehicleByIdQuery } from "../../Api/vehicleApi";
 import CreateBid from "./CreateBid";
 import { useNavigate } from "react-router-dom";
 import { bidModel } from "../../interfaces/bidModel";
+import {
+  HubConnection,
+  HubConnectionBuilder,
+  LogLevel,
+} from "@microsoft/signalr";
+import { newBidModelResponse } from "../../interfaces/newBidModelResponse";
 
 function BidsDetail(props: { vehicleId: string }) {
   const navigate = useNavigate();
@@ -22,27 +28,67 @@ function BidsDetail(props: { vehicleId: string }) {
   const userStore: userModel = useSelector(
     (state: RootState) => state.authenticationStore
   );
-
+  const bidStore: any = useSelector((state: RootState) => state.bidStore);
+  const [bidState, setBidState] = useState<newBidModelResponse[]>([]);
+  const [triggerConnection, setTriggerConnectionState] = useState<boolean>();
+  const [hubConnection, setHubConnection] = useState<HubConnection>();
   const [result, setResult] = useState();
+  const [variable, setVariableState] = useState();
   const response_data = useGetVehicleByIdQuery(parseInt(props.vehicleId));
   if (response_data) {
   }
-  useEffect(
-    function () {
+  useEffect(() => {
+    if (data) {
+      setBidState(data.result);
+    }
+  }, [data]);
+  useEffect(() => {
+    createHubConnection();
+  }, []);
+
+  async function createHubConnection() {
+    const hubConnection = new HubConnectionBuilder()
+      .withUrl("https://localhost:7186/BidUpdate/Hub")
+      .configureLogging(LogLevel.Information)
+      .build();
+    try {
+      await hubConnection.start();
+    } catch (error) {}
+    setHubConnection(hubConnection);
+  }
+  useEffect(() => {
+    if (hubConnection) {
       const checkModel: checkStatus = {
         userId: userStore.nameid!,
         vehicleId: parseInt(props.vehicleId),
       };
-      const response = checkStatusAuction(checkModel)
+      checkStatusAuction(checkModel)
         .then((response: any) => {
-          setResult(response!.data.isSuccess);
+          setResult(response!.data?.isSuccess);
         })
         .catch((error) => {
-          console.error("Error");
+          console.error(error);
         });
-    },
-    [props.vehicleId, checkStatusAuction, userStore.nameid]
-  );
+      hubConnection
+        .send("NewBid", parseInt(props.vehicleId))
+        .catch((err) => console.error(err));
+    }
+    setTriggerConnectionState(true);
+  }, [
+    props.vehicleId,
+    checkStatusAuction,
+    userStore.nameid,
+    hubConnection,
+    bidStore,
+  ]);
+
+  useEffect(() => {
+    if (hubConnection) {
+      hubConnection.on("messageReceived", (message: any) => {
+        setBidState(message);
+      });
+    }
+  }, [hubConnection, triggerConnection]);
   function handleCheckout(props: any) {
     var token = localStorage.getItem("token");
     if (!token) {
@@ -74,14 +120,14 @@ function BidsDetail(props: { vehicleId: string }) {
       )}
 
       <div className="bid-list">
-        {data.result
-          .slice()
+        {bidState
+          ?.slice()
           .sort((a: bidModel, b: bidModel) => b.bidAmount - a.bidAmount)
-          .map((bid: any) => {
+          .map((bid: any, key: any) => {
             return (
               <div key={bid.bidId} className="mt-4">
                 <div className="bid">
-                  <span className="bid-number">{bid.bidId}</span>{" "}
+                  <span className="bid-number">{key + 1}</span>{" "}
                   <span className="bid-date">
                     {new Date(bid.bidDate).toLocaleString("sv-SE", {
                       dateStyle: "medium",

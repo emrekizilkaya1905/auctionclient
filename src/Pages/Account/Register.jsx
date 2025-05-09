@@ -15,6 +15,7 @@ function Register() {
 
   const [userRegisterMutation] = useSignUpMutation();
   const handleRegistrationSubmit = async () => {
+    console.log(userData.userType);
     const response: apiResponse = await userRegisterMutation({
       username: userData.username,
       fullname: userData.fullname,
@@ -93,6 +94,8 @@ function Register() {
                     })
                   }
                 >
+                  <option value="">Choose a role</option>{" "}
+                  {/* Varsayılan seçenek */}
                   <option value={SD_ROLES.Seller}>Seller</option>
                   <option value={SD_ROLES.NormalUser}>Normally</option>
                 </select>
