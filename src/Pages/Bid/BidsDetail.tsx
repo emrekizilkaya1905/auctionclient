@@ -17,6 +17,7 @@ import {
   LogLevel,
 } from "@microsoft/signalr";
 import { newBidModelResponse } from "../../interfaces/newBidModelResponse";
+import { ToastrNotify } from "../../Helper";
 
 function BidsDetail(props: { vehicleId: string }) {
   const navigate = useNavigate();
@@ -84,8 +85,22 @@ function BidsDetail(props: { vehicleId: string }) {
 
   useEffect(() => {
     if (hubConnection) {
-      hubConnection.on("messageReceived", (message: any) => {
-        setBidState(message);
+      hubConnection.on("newHighestBid", (latestBid: any) => {
+        setBidState((prev) => {
+          const updated = [...prev, latestBid];
+
+          // Eğer bidId zaten varsa, tekrar ekleme:
+          const uniqueBids = Array.from(
+            new Map(updated.map((item) => [item.bidId, item])).values()
+          );
+
+          // Büyükten küçüğe sırala
+          const sorted = uniqueBids.sort((a, b) => b.bidAmount - a.bidAmount);
+
+          return sorted;
+        });
+
+        ToastrNotify(`New highest bid: $${latestBid.bidAmount}`, "info");
       });
     }
   }, [hubConnection, triggerConnection]);
