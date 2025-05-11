@@ -4,7 +4,7 @@ const ToastrNotify = (message: string, notifyType: any) => {
   toast.error(message, {
     type: notifyType,
     position: "top-right",
-    autoClose: 7500,
+    autoClose: 4000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,

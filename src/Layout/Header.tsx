@@ -43,12 +43,6 @@ function Header() {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <a className="nav-link" href="#">
-                  Home <span className="sr-only">(current)</span>
-                </a>
-              </li>
-
               {userStore.fullName && (
                 <li className="nav-item">
                   <span className="nav-link">
@@ -56,27 +50,31 @@ function Header() {
                   </span>
                 </li>
               )}
-              <div
-                className="collapse navbar-collapse  mx-2 "
-                id="navbarNavDarkDropdown"
-              >
-                <ul className="navbar-nav">
-                  <li className="nav-item dropdown">
-                    <button
-                      className="btn btn-dark dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Menu's
-                    </button>
-                    <ul className="dropdown-menu dropdown-menu-dark">
-                      <a className="dropdown-item" href="#">
-                        Vehicle List
-                      </a>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
+              {userStore.role === "Administrator" ? (
+                <div
+                  className="collapse navbar-collapse  mx-2 "
+                  id="navbarNavDarkDropdown"
+                >
+                  <ul className="navbar-nav">
+                    <li className="nav-item dropdown">
+                      <button
+                        className="btn btn-dark dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Menu's
+                      </button>
+                      <ul className="dropdown-menu dropdown-menu-dark">
+                        <a className="dropdown-item" href="#">
+                          Vehicle List
+                        </a>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              ) : (
+                ""
+              )}
 
               {userStore.fullName ? (
                 <li className="nav-item" style={{ marginRight: "5px" }}>

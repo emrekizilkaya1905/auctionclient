@@ -6,7 +6,7 @@ import { useCheckStatusAuctionPriceMutation } from "../../Api/paymentHistoryApi"
 import { checkStatus } from "../../interfaces/checkStatus";
 import userModel from "../../interfaces/userModel";
 import { RootState } from "../../Storage/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useGetVehicleByIdQuery } from "../../Api/vehicleApi";
 import CreateBid from "./CreateBid";
 import { useNavigate } from "react-router-dom";
@@ -21,9 +21,7 @@ import { ToastrNotify } from "../../Helper";
 
 function BidsDetail(props: { vehicleId: string }) {
   const navigate = useNavigate();
-  const { data, isLoading } = useGetBidByVehicleIdQuery(
-    parseInt(props.vehicleId)
-  );
+  const { data } = useGetBidByVehicleIdQuery(parseInt(props.vehicleId));
   const [checkStatusAuction] = useCheckStatusAuctionPriceMutation();
 
   const userStore: userModel = useSelector(
@@ -34,7 +32,7 @@ function BidsDetail(props: { vehicleId: string }) {
   const [triggerConnection, setTriggerConnectionState] = useState<boolean>();
   const [hubConnection, setHubConnection] = useState<HubConnection>();
   const [result, setResult] = useState();
-  const [variable, setVariableState] = useState();
+
   const response_data = useGetVehicleByIdQuery(parseInt(props.vehicleId));
   if (response_data) {
   }
@@ -73,8 +71,8 @@ function BidsDetail(props: { vehicleId: string }) {
       hubConnection
         .send("NewBid", parseInt(props.vehicleId))
         .catch((err) => console.error(err));
+      setTriggerConnectionState(true);
     }
-    setTriggerConnectionState(true);
   }, [
     props.vehicleId,
     checkStatusAuction,
@@ -85,22 +83,8 @@ function BidsDetail(props: { vehicleId: string }) {
 
   useEffect(() => {
     if (hubConnection) {
-      hubConnection.on("newHighestBid", (latestBid: any) => {
-        setBidState((prev) => {
-          const updated = [...prev, latestBid];
-
-          // Eğer bidId zaten varsa, tekrar ekleme:
-          const uniqueBids = Array.from(
-            new Map(updated.map((item) => [item.bidId, item])).values()
-          );
-
-          // Büyükten küçüğe sırala
-          const sorted = uniqueBids.sort((a, b) => b.bidAmount - a.bidAmount);
-
-          return sorted;
-        });
-
-        ToastrNotify(`New highest bid: $${latestBid.bidAmount}`, "info");
+      hubConnection.on("messageReceived", (message: any) => {
+        setBidState(message);
       });
     }
   }, [hubConnection, triggerConnection]);

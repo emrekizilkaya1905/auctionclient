@@ -13,7 +13,7 @@ import { getVehicle } from "../../Storage/Redux/vehicleSlice";
 
 function BidCheckout() {
   const { vehicleId } = useParams();
-  const { data, isLoading } = useGetVehicleByIdQuery(vehicleId);
+  const { data } = useGetVehicleByIdQuery(vehicleId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userStore: userModel = useSelector(
@@ -60,7 +60,7 @@ function BidCheckout() {
       <div className="container">
         <div className="card text-center">
           <form onSubmit={handleSubmit}>
-            <img src={data.result.image} className="card-image" />
+            <img src={data.result.image} className="card-image" alt="Car" />
             <div className="card-content text-center">
               <h3 className="card-title"> {data.result.brandAndModel} </h3>
               <p className="card-text">
