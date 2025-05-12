@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const InitialState: any = {
-  auctionBid: Number,
+  auctionBid: 0,
 };
 
 export const bidSlice = createSlice({
