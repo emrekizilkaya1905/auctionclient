@@ -14,6 +14,8 @@ import userModel from "../interfaces/userModel";
 import { jwtDecode } from "jwt-decode";
 import BidCheckout from "../Pages/Bid/BidCheckout";
 import Payment from "../Pages/Payment/Payment";
+import { VehicleIndex } from "../Pages/Admin";
+import NotFound from "../Other/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +41,7 @@ function App() {
       <div className="pb-5">
         <Routes>
           <Route path="/" element={<VehicleList />} />
+          <Route path="/Admin/VehicleIndex" element={<VehicleIndex />} />
           <Route
             path="Vehicle/VehicleId/:vehicleId"
             element={<VehicleDetail />}
@@ -54,6 +57,7 @@ function App() {
             element={<BidCheckout />}
           />
           <Route path="payment" element={<Payment />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>

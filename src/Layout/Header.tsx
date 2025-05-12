@@ -3,7 +3,7 @@ import "./Styles/Header.css";
 import { useDispatch, useSelector } from "react-redux";
 import userModel from "../interfaces/userModel";
 import { RootState } from "../Storage/store";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   initialState,
   setLoggedInUser,
@@ -52,7 +52,7 @@ function Header() {
               )}
               {userStore.role === "Administrator" ? (
                 <div
-                  className="collapse navbar-collapse  mx-2 "
+                  className="collapse navbar-collapse mx-2"
                   id="navbarNavDarkDropdown"
                 >
                   <ul className="navbar-nav">
@@ -62,12 +62,17 @@ function Header() {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        Menu's
+                        Menus
                       </button>
                       <ul className="dropdown-menu dropdown-menu-dark">
-                        <a className="dropdown-item" href="#">
-                          Vehicle List
-                        </a>
+                        <li>
+                          <NavLink
+                            to="/Admin/VehicleIndex"
+                            className="dropdown-item"
+                          >
+                            Vehicle List
+                          </NavLink>
+                        </li>
                       </ul>
                     </li>
                   </ul>
