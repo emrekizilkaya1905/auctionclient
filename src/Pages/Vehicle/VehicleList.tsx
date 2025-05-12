@@ -53,10 +53,7 @@ function VehicleList() {
           .localeCompare(a.brandAndModel.toLowerCase())
       );
     }
-    localStorage.setItem("myFilter", JSON.stringify(forSortArray));
-    if (filterOptions[sortTypes] === SD_FilterTypes.RemoveFilter) {
-      localStorage.removeItem("myFilter");
-    }
+
     if (sortTypes === SD_FilterTypes.Pagination) {
       setCurrentPage(index!);
       const constantPage = 8;
@@ -100,12 +97,8 @@ function VehicleList() {
       }
     }
 
-    const storedArray = JSON.parse(localStorage.getItem("myFilter")!);
-    if (data && storedArray === null && searchElement === "") {
+    if (data && searchElement === "") {
       setFilterResponse(data.result);
-    }
-    if (storedArray !== null && searchElement === "") {
-      setFilterResponse(storedArray);
     }
   }, [vehicles, data, searchElement]);
 

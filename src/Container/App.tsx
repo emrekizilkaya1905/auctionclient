@@ -16,6 +16,7 @@ import BidCheckout from "../Pages/Bid/BidCheckout";
 import Payment from "../Pages/Payment/Payment";
 import { VehicleIndex } from "../Pages/Admin";
 import NotFound from "../Other/NotFound";
+import CreateVehicle from "../Pages/Admin/CreateVehicle";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,6 +43,10 @@ function App() {
         <Routes>
           <Route path="/" element={<VehicleList />} />
           <Route path="/Admin/VehicleIndex" element={<VehicleIndex />} />
+          <Route
+            path="/Admin/CreateVehicle/:vehicleId?"
+            element={<CreateVehicle></CreateVehicle>}
+          ></Route>
           <Route
             path="Vehicle/VehicleId/:vehicleId"
             element={<VehicleDetail />}
