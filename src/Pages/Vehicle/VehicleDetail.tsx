@@ -24,7 +24,7 @@ export default function VehicleDetail() {
   return (
     <>
       <div className="auction-item text-center">
-        <img className="container" src={data.result.image} />
+        <img className="container" src={data.result.image} alt="Emre" />
         <h2>Brand Model:{data.result.brandAndModel}</h2>
         <p>Description :{data.result.additionalInformation}</p>
         <p> Current Bid: {highBid} </p>

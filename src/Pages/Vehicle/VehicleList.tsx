@@ -162,8 +162,10 @@ function VehicleList() {
                     <strong>Current Bid:</strong> ${vehicle.price}{" "}
                   </p>
                   <p>
-                    {" "}
-                    <strong>EndTime:</strong> {vehicle.endTime}{" "}
+                    <strong>EndTime:</strong>
+                    {new Date(vehicle.endTime).toLocaleString("sv-SE", {
+                      timeZone: "Europe/Stockholm",
+                    })}
                   </p>
                 </div>
                 <div>

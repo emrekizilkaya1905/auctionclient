@@ -24,6 +24,14 @@ const vehicleApi = createApi({
       }),
       invalidatesTags: ["vehicle"],
     }),
+    createVehicle: builder.mutation({
+      query: (vehicleModel: any) => ({
+        url: "CreateVehicle",
+        method: "POST",
+        body: vehicleModel,
+      }),
+      invalidatesTags: ["vehicle"],
+    }),
   }),
 });
 
@@ -31,5 +39,6 @@ export const {
   useGetVehiclesQuery,
   useGetVehicleByIdQuery,
   useRemoveVehicleMutation,
+  useCreateVehicleMutation,
 } = vehicleApi;
 export default vehicleApi;
