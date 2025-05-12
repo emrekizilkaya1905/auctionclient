@@ -1,2 +1,3 @@
 import VehicleIndex from "./VehicleIndex";
-export { VehicleIndex };
+import Vehicle from "./Vehicle";
+export { VehicleIndex, Vehicle };
