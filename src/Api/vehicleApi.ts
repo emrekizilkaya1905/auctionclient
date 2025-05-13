@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createVehicleModel } from "../interfaces/createVehicleModel";
 //https://localhost:7186/api/Vehicle/Remove/Vehicle/99
 const vehicleApi = createApi({
   reducerPath: "vehicleApi",
@@ -32,6 +33,14 @@ const vehicleApi = createApi({
       }),
       invalidatesTags: ["vehicle"],
     }),
+    updateVehicle: builder.mutation({
+      query: ({ createVehicle, vehicleId }) => ({
+        url: `UpdateVehicle?vehicleId=${vehicleId}`,
+        method: "PUT",
+        body: createVehicle,
+      }),
+      invalidatesTags: ["vehicle"],
+    }),
   }),
 });
 
@@ -40,5 +49,6 @@ export const {
   useGetVehicleByIdQuery,
   useRemoveVehicleMutation,
   useCreateVehicleMutation,
+  useUpdateVehicleMutation,
 } = vehicleApi;
 export default vehicleApi;

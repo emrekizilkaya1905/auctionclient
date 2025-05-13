@@ -19,8 +19,15 @@ function Vehicle() {
   );
   if (!data) return <Loader />;
   return (
-    <div>
-      <div className="text-center"></div>
+    <div className="text-center">
+      <div className="text-center">
+        <Link to={"/Admin/CreateVehicle"}>
+          <a className="btn btn-warning" type="button">
+            {" "}
+            Create Vehicle{" "}
+          </a>
+        </Link>
+      </div>
       <table>
         <thead className="table-dark">
           <tr>
