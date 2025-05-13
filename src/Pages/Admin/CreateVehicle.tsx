@@ -1,7 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { withAdminAuth } from "../../HOC";
+import { ToastrNotify } from "../../Helper";
 
 function CreateVehicle() {
+  const [imageToBeStore, setImageToBeStore] = useState<any>();
+  const [imageToBeDisplay, setImageToBeDisplay] = useState<any>();
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      const imgType = file.type.split("/")[1];
+      const validImgTypes = ["jpeg", "jpg", "png"];
+
+      const isImageTypeValid = validImgTypes.filter((e) => {
+        return e === imgType;
+      });
+
+      if (file.size > 1000 * 1024) {
+        ToastrNotify("File Must be less than 1 MB ", "error");
+        setImageToBeStore("");
+        return;
+      } else if (isImageTypeValid.length === 0) {
+        ToastrNotify("File must be type in jpeg,jpg,png", "error");
+        setImageToBeStore("");
+
+        return;
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      setImageToBeStore(file);
+      reader.onload = (e) => {
+        const imgUrl = e.target?.result as string;
+        setImageToBeDisplay(imgUrl);
+      };
+      console.log(imageToBeDisplay);
+      console.log(imageToBeStore);
+    }
+  };
   return (
     <div>
       <div
@@ -131,7 +165,12 @@ function CreateVehicle() {
 
             <div className="mb-3">
               <label className="form-label">Image</label>
-              <input type="file" className="form-control" placeholder="Image" />
+              <input
+                type="file"
+                className="form-control"
+                placeholder="Image"
+                onChange={handleFileChange}
+              />
             </div>
           </div>
 
