@@ -38,7 +38,7 @@ function Vehicle() {
             <th className="fw-bold">Manufacturing Year</th>
             <th className="fw-bold">Image</th>
             <th className="fw-bold">Delete</th>
-            <th className="fw-bold">Create</th>
+            <th className="fw-bold">Update</th>
           </tr>
         </thead>
 
