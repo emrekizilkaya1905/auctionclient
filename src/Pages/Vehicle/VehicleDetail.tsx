@@ -27,7 +27,6 @@ export default function VehicleDetail() {
         <img className="container" src={data.result.image} alt="Emre" />
         <h2>Brand Model:{data.result.brandAndModel}</h2>
         <p>Description :{data.result.additionalInformation}</p>
-        <p> Current Bid: {highBid} </p>
       </div>
       <BidsDetail vehicleId={safeVehicleId}></BidsDetail>
     </>

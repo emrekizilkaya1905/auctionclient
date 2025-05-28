@@ -81,7 +81,7 @@ MySQL Server (for the database)
 Visual Studio
 
 1. Frontend (React + TypeScript)
-   Navigate to the CarAuction/client folder in your terminal:
+   Navigate to folder in your terminal:
    cd CarAuctionReact/auctionclient
 2. Install dependencies:
    npm install
