@@ -1,4 +1,5 @@
 1. Project Description
+
    Project Name: CarAuction
 
 Short Description:
@@ -24,6 +25,7 @@ CRUD operations on vehicles through the admin panel
 (Note: No CRUD operations are provided for regular users.)
 
 2. Tech Stack
+
    The CarAuction project is built using modern web development technologies in a full-stack, n-layer architecture backend.
 
 Frontend:
@@ -61,6 +63,7 @@ Real-Time Communication:
 SignalR (to transmit real-time bid data)
 
 3. Setup and Running Instructions
+
    The project is structured with frontend (React) and backend (ASP.NET Core) code in separate folders. The following steps outline how to run the project in a local development environment.
 
 Prerequisites
@@ -90,6 +93,7 @@ dotnet ef migrations add InitialCreate
 dotnet ef database update
 These commands will create the MySQL database based on the defined ApplicationDbContext.
 4.Environment Variables
+
 Example of appsettings.json configuration:
 {
 "ConnectionStrings": {
