@@ -1,46 +1,105 @@
-# Getting Started with Create React App
+1. Project Description
+   Project Name: CarAuction
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Short Description:
+CarAuction is a modern web-based auction platform where users can place bids on vehicles through an open auction system. The system allows users to register and log in to actively participate in bidding. Additionally, it provides an admin panel for administrators to perform full CRUD (Create, Read, Update, Delete) operations on vehicles in the system.
 
-## Available Scripts
+Purpose and Motivation:
+The main goal of this project was to learn new skills by using React (frontend) and .NET (backend) technologies. At the same time, I aimed to understand potential security vulnerabilities in such applications and explore ways to build a secure system.
 
-In the project directory, you can run:
+Target User Group:
+The platform targets a broad audience without restrictions. It can be used by anyone, from individuals looking to purchase vehicles to technology enthusiasts.
 
-### `npm start`
+Core Features:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Fetching data via API
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+User registration and login system
 
-### `npm test`
+Participating in auctions and placing bids
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Admin panel for administrators
 
-### `npm run build`
+CRUD operations on vehicles through the admin panel
+(Note: No CRUD operations are provided for regular users.)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Tech Stack
+   The CarAuction project is built using modern web development technologies in a full-stack, n-layer architecture backend.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Frontend:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+React (with TypeScript)
 
-### `npm run eject`
+Redux Toolkit + RTK Query (for global state management and API calls)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+SignalR (for real-time bid updates)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Bootstrap (for UI design)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+RTK Query
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Backend:
 
-## Learn More
+ASP.NET Core 8
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Entity Framework (Code-First)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+ASP.NET Identity (for user management)
+
+JWT (JSON Web Token) (for authentication and authorization)
+
+Database:
+
+MySQL (for data management)
+
+Payment System:
+
+Stripe API (for payment integration)
+
+Real-Time Communication:
+
+SignalR (to transmit real-time bid data)
+
+3. Setup and Running Instructions
+   The project is structured with frontend (React) and backend (ASP.NET Core) code in separate folders. The following steps outline how to run the project in a local development environment.
+
+Prerequisites
+Make sure the following software is installed on your computer:
+
+Node.js (for React application)
+
+.NET 8 SDK (for backend)
+
+MySQL Server (for the database)
+
+Visual Studio
+
+1. Frontend (React + TypeScript)
+   Navigate to the CarAuction/client folder in your terminal:
+   cd CarAuctionReact/auctionclient
+2. Install dependencies:
+   npm install
+   3.Start the application:
+   npm start
+   Database Setup
+   The project uses Entity Framework Code-First approach.
+   3.Database Setup
+
+Before running the application for the first time, execute the migrations commands:
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+These commands will create the MySQL database based on the defined ApplicationDbContext.
+4.Environment Variables
+Example of appsettings.json configuration:
+{
+"ConnectionStrings": {
+"DefaultConnection": "server=localhost;database=carauctiondb;user=root;password=yourpassword;"
+},
+"Jwt": {
+"Key": "YourSuperSecretKey",
+"Issuer": "CarAuctionApp"
+},
+"Stripe": {
+"SecretKey": "your_stripe_secret_key"
+}
+}

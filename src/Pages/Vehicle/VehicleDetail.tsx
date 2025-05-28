@@ -28,7 +28,6 @@ export default function VehicleDetail() {
         <h2>Brand Model:{data.result.brandAndModel}</h2>
         <p>Description :{data.result.additionalInformation}</p>
         <p> Current Bid: {highBid} </p>
-        <p>Last Bidder</p>
       </div>
       <BidsDetail vehicleId={safeVehicleId}></BidsDetail>
     </>
