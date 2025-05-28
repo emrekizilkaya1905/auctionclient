@@ -1,14 +1,17 @@
 1. Project Description
 
-   Project Name: CarAuction
+Project Name: CarAuction
 
 Short Description:
+
 CarAuction is a modern web-based auction platform where users can place bids on vehicles through an open auction system. The system allows users to register and log in to actively participate in bidding. Additionally, it provides an admin panel for administrators to perform full CRUD (Create, Read, Update, Delete) operations on vehicles in the system.
 
 Purpose and Motivation:
+
 The main goal of this project was to learn new skills by using React (frontend) and .NET (backend) technologies. At the same time, I aimed to understand potential security vulnerabilities in such applications and explore ways to build a secure system.
 
 Target User Group:
+
 The platform targets a broad audience without restrictions. It can be used by anyone, from individuals looking to purchase vehicles to technology enthusiasts.
 
 Core Features:
